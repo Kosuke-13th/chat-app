@@ -13,6 +13,9 @@ class RoomsController < ApplicationController
     end
   end
 
+  def show
+  end
+
   private
 
   def room_params
