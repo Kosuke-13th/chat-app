@@ -1,8 +1,9 @@
 class MessagesController < ApplicationController
 
   def index
-    @room = Room.find(params[:room_id])
     @message = Message.new
+    @room = Room.find(params[:room_id])
+    @messages = @room.messages.includes(:user) #その部屋のそのユーザーのメッセージ全表示
   end
 
   def create
@@ -11,7 +12,8 @@ class MessagesController < ApplicationController
     if @message.save
        redirect_to room_messages_path(@room)
     else
-       render :index, status: :unprocessable_entity
+      @messages = @room.messages.includes(:user) #投稿ミスってもその部屋のそのユーザーのメッセージ全表示
+      render :index, status: :unprocessable_entity #投稿ミスったらindex開く
     end
   end
 
